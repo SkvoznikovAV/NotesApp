@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -54,12 +55,23 @@ class NotesListFragment: Fragment() {
 
         notesRecyclerView = view.findViewById(R.id.notes_recycler_view)
         notesRecyclerView.layoutManager = LinearLayoutManager(context)
-        val notes = notesListViewModel.notesList
-        notesRecyclerView.adapter = NotesListAdapter(notes)
+        notesRecyclerView.adapter = NotesListAdapter(emptyList())
 
         return view
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        notesListViewModel.notesListLiveData.observe(viewLifecycleOwner){
+               notes -> notes?.let{
+                   updateUI(notes)
+            }
+        }
+    }
+
+    private fun updateUI(notes: List<Note>){
+        notesRecyclerView.adapter = NotesListAdapter(notes)
+    }
 
 
     companion object{

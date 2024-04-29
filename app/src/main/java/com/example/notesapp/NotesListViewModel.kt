@@ -1,9 +1,11 @@
 package com.example.notesapp
 
 import androidx.lifecycle.ViewModel
+import com.example.notesapp.database.NoteRepository
 
 class NotesListViewModel: ViewModel() {
-    val notesList = getNotes()
+    private val notesRepository = NoteRepository.get()
+    val notesListLiveData = notesRepository.getNotes()
 
     private fun getNotes(): List<Note> {
         return listOf(
@@ -14,5 +16,7 @@ class NotesListViewModel: ViewModel() {
             Note("Заметка 5"),
         )
     }
+
+
 
 }

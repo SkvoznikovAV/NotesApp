@@ -1,11 +1,14 @@
 package com.example.notesapp
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import java.util.Date
 import java.util.UUID
 
-data class Note(val title: String,
-    val description: String="Описание не указано",
-    val date: Date = Date()) {
+@Entity
+data class Note(var title: String,
+    var description: String="Описание не указано",
+    var date: Date = Date()) {
 
-    private val id: UUID = UUID.randomUUID()
+    @PrimaryKey var id: UUID = UUID.randomUUID()
 }
